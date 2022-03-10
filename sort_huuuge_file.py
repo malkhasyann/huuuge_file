@@ -1,20 +1,19 @@
-""" This script sorts a huuuge file of integers using less memory than 200MB. """
+""" This script creates the sorted copy of the huuuge file. """
 
-huge_dict = dict()  # creating a huge dict to track each number entry in the file
-for i in range(121):
-    huge_dict[i] = 0
+# create a huge dict to track each number entry count in the file
+huge_dict = {i: 0 for i in range(121)}
 
-with open('huuuge.txt', 'r') as fr, open('sorted_huuuge.txt', 'w') as fw:
+with open('huuuge.txt', 'r', encoding='utf-8') as fr, open('sorted_huuuge.txt', 'w', encoding='utf-8') as fw:
     for line in fr:  # read every line
-        numbers = [int(x) for x in line.split()]  # cast numbers to int
-        for number in numbers:  # add count of each number
+        numbers = [int(x) for x in line.split()]  # convert numbers to int
+        for number in numbers:  # add 1 to the counter if the number appeared
             huge_dict[number] += 1
 
     i = 1  # counter for newline character
-    for key in huge_dict:
-        while huge_dict[key] > 0: # write huge_dict[key] times key in the new file
-            fw.write(f"{key} ")
+    for key in huge_dict:  # write each number in new file
+        while huge_dict[key] > 0:  # as many times they appear in the initial file
+            fw.write(f'{key} ')
+            huge_dict[key] -= 1
             if i % 25 == 0:
                 fw.write('\n')
-            huge_dict[key] -= 1
             i += 1
